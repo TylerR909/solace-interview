@@ -13,6 +13,7 @@
 - I'm not versed on Next.js so I'll have to figure out what works. For example, does Context work just the same, which will allow me to split out the data layer into its own unit of responsibility?
   - [This](https://nextjs.org/docs/app/getting-started/server-and-client-components#interleaving-server-and-client-components) was insightful. Looks like I can just use Context as normal.
 - Kind of want to avoid libraries like MUI/Styled/etc in the interest of time. Nothing here is complex enough to necessitate advanced features from those. Looks like Tailwind can guide most of the styling then bare state manipulation (in an isolated layer) can do most of the rest.
+- Would be great to find a useFetch library. I'm so used to useQuery I'm not sure if there's an idiomatic useFetch library but it would beat useState+useEffect backfill
 
 ## Things I'm unsure about
 
