@@ -24,15 +24,23 @@
 
 ## TODOs
 
+### MVP
+
+- [x] Architectuer updates
+  - [x] AdvocatesProvider
 - [ ] Prettify Table
 - [ ] Format Phone Number
-- [ ] Right-size the Years of Experience column (huge header, 2-char data)
-- [ ] Convert Specialties into Tags or something (maybe store a color in the db)
-  - [ ] Specialties Admin Panel
 - Functionality:
   - [ ] Search
   - [ ] Add
   - [ ] Delete
   - [ ] View/Click in to (reuse add?)
+- [ ] Convert client-side search to server-side
+
+### Post-MVP
+
+- [ ] Right-size the Years of Experience column (huge header, 2-char data)
+- [ ] Convert Specialties into Tags or something (maybe store a color in the db)
+  - [ ] Specialties Admin Panel
 - [ ] Bold/Highlight Specialties when it matches the Search Term. i.e. searching for "post-partum" should draw the user's attention to that match in the Specialties column
 - Stub out a "Match me with a Provider" UI
