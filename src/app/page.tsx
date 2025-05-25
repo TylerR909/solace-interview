@@ -5,27 +5,6 @@ import { useAdvocatesContext } from "./AdvocatesProvider";
 
 export default function Home() {
   const { advocates, searchTerm, setSearchTerm } = useAdvocatesContext();
-
-  // TODO: For client-side search, could be good to debounce setSearchTerm so this useMemo
-  // doesn't run on every keystroke.
-  const filteredAdvocates = useMemo(() => {
-    // Compiling RegExp is expensive so do it once up here and reuse instead of over and over again inline
-    const caseInsensitiveSearch = new RegExp(searchTerm, "i");
-    return !searchTerm
-      ? advocates
-      : advocates.filter(
-          (advocate) =>
-            advocate.firstName.match(caseInsensitiveSearch) ||
-            advocate.lastName.match(caseInsensitiveSearch) ||
-            advocate.city.match(caseInsensitiveSearch) ||
-            advocate.degree.match(caseInsensitiveSearch) ||
-            advocate.specialties.some((specialty) =>
-              specialty.match(caseInsensitiveSearch)
-            ) ||
-            advocate.yearsOfExperience.toString().match(caseInsensitiveSearch)
-        );
-  }, [searchTerm, advocates]);
-
   return (
     <>
       <div className="flex justify-between items-center pb-4">
@@ -48,7 +27,7 @@ export default function Home() {
           />
         </div>
       </div>
-      {searchTerm && filteredAdvocates.length === 0 ? (
+      {searchTerm && advocates.length === 0 ? (
         <>
           <div>No results to show for "{searchTerm}"...</div>
           <button
@@ -80,7 +59,7 @@ export default function Home() {
             </tr>
           </thead>
           <tbody className="bg-white dark:bg-slate-800">
-            {filteredAdvocates.map((advocate) => (
+            {advocates.map((advocate) => (
               <tr key={advocate.id}>
                 <TableCell>{advocate.firstName}</TableCell>
                 <TableCell>{advocate.lastName}</TableCell>

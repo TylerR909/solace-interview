@@ -48,3 +48,6 @@
   - [ ] Add
   - [ ] Delete
   - [ ] View/Click in to (reuse add?)
+- [ ] Validate the schema for the `/api/advoces?searchTerm=test` query string
+- [ ] Loading State while fetch is in-flight
+- [ ] Sanitize SQL (the apostrophe in "men's health" is sql injection and breaks the query)
