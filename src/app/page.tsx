@@ -4,8 +4,7 @@ import { PropsWithChildren, useMemo, useState } from "react";
 import { useAdvocatesContext } from "./AdvocatesProvider";
 
 export default function Home() {
-  const { advocates } = useAdvocatesContext();
-  const [searchTerm, setSearchTerm] = useState("");
+  const { advocates, searchTerm, setSearchTerm } = useAdvocatesContext();
 
   // TODO: For client-side search, could be good to debounce setSearchTerm so this useMemo
   // doesn't run on every keystroke.
