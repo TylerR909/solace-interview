@@ -89,7 +89,10 @@ export default function Home() {
                 <TableCell>{advocate.degree}</TableCell>
                 <TableCell>
                   {/* TODO: Highlight/Bold a term when it matches SearchTerm */}
-                  <Specialties specialties={advocate.specialties} showMax={3} />
+                  <SpecialtiesList
+                    specialties={advocate.specialties}
+                    showMax={3}
+                  />
                 </TableCell>
                 <TableCell>{advocate.yearsOfExperience}</TableCell>
                 <TableCell>
@@ -120,24 +123,35 @@ const TableCell = ({ children }: PropsWithChildren) => (
   </td>
 );
 
-type SpecialtiesProps = {
+type SpecialtiesListProps = {
   specialties: string[];
   /** Shows up to this many number of specialties. Beyond this number, it renders e.g. `+7 more...` */
   showMax: number;
 };
 
 /** Helps declutter a long list of Specialties by only showing up to showMax of them, then `"+7 more..."` the rest. */
-const Specialties = ({ specialties, showMax }: SpecialtiesProps) => {
-  const specialtiesToRender = specialties.slice(0, showMax);
-  const numHidden = specialties.slice(showMax).length;
-  // TODO: Add accordion/expando so people can reveal the "more"
+const SpecialtiesList = ({ specialties, showMax }: SpecialtiesListProps) => {
+  const [expand, setExpand] = useState(false);
+  const specialtiesToRender = specialties.slice(
+    0,
+    // if the cell is being expanded, show everything.
+    expand ? undefined : showMax
+  );
+  const numHidden = expand ? 0 : specialties.slice(showMax).length;
   // TODO: If one of these matches `searchTerm` then force it to render
   return (
-    <>
+    <div
+      style={{ cursor: "pointer" }}
+      // clickable divs are an a11y issue
+      onClick={() => setExpand((state) => !state)}
+    >
       {specialtiesToRender.map((specialty) => (
         <li key={specialty}>{specialty}</li>
       ))}
-      {numHidden > 0 ? <li> +{numHidden} more...</li> : undefined}
-    </>
+      {numHidden > 0 ? (
+        // yeah we can workshop this
+        <li> +{numHidden} more... (click to see)</li>
+      ) : undefined}
+    </div>
   );
 };
