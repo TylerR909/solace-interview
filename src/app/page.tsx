@@ -1,45 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
+import { useAdvocatesContext } from "./AdvocatesProvider";
 
 export default function Home() {
-  const [advocates, setAdvocates] = useState([]);
-  const [filteredAdvocates, setFilteredAdvocates] = useState([]);
+  const { advocates } = useAdvocatesContext();
+  const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    console.log("fetching advocates...");
-    fetch("/api/advocates").then((response) => {
-      response.json().then((jsonResponse) => {
-        setAdvocates(jsonResponse.data);
-        setFilteredAdvocates(jsonResponse.data);
-      });
-    });
-  }, []);
-
-  const onChange = (e) => {
-    const searchTerm = e.target.value;
-
-    document.getElementById("search-term").innerHTML = searchTerm;
-
-    console.log("filtering advocates...");
-    const filteredAdvocates = advocates.filter((advocate) => {
-      return (
-        advocate.firstName.includes(searchTerm) ||
-        advocate.lastName.includes(searchTerm) ||
-        advocate.city.includes(searchTerm) ||
-        advocate.degree.includes(searchTerm) ||
-        advocate.specialties.includes(searchTerm) ||
-        advocate.yearsOfExperience.includes(searchTerm)
-      );
-    });
-
-    setFilteredAdvocates(filteredAdvocates);
-  };
-
-  const onClick = () => {
-    console.log(advocates);
-    setFilteredAdvocates(advocates);
-  };
+  // TODO: For client-side search, could be good to debounce setSearchTerm so this useMemo
+  // doesn't run on every keystroke.
+  const filteredAdvocates = useMemo(() => {
+    // Compiling RegExp is expensive so do it once up here and reuse instead of over and over again inline
+    const caseInsensitiveSearch = new RegExp(searchTerm, "i");
+    return !searchTerm
+      ? advocates
+      : advocates.filter(
+          (advocate) =>
+            advocate.firstName.match(caseInsensitiveSearch) ||
+            advocate.lastName.match(caseInsensitiveSearch) ||
+            advocate.city.match(caseInsensitiveSearch) ||
+            advocate.degree.match(caseInsensitiveSearch) ||
+            advocate.specialties.some((specialty) =>
+              specialty.match(caseInsensitiveSearch)
+            ) ||
+            advocate.yearsOfExperience.toString().match(caseInsensitiveSearch)
+        );
+  }, [searchTerm, advocates]);
 
   return (
     <main style={{ margin: "24px" }}>
@@ -51,39 +37,44 @@ export default function Home() {
         <p>
           Searching for: <span id="search-term"></span>
         </p>
-        <input style={{ border: "1px solid black" }} onChange={onChange} />
-        <button onClick={onClick}>Reset Search</button>
+        <input
+          style={{ border: "1px solid black" }}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          value={searchTerm}
+        />
+        <button onClick={() => setSearchTerm("")}>Reset Search</button>
       </div>
       <br />
       <br />
       <table>
         <thead>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>City</th>
-          <th>Degree</th>
-          <th>Specialties</th>
-          <th>Years of Experience</th>
-          <th>Phone Number</th>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>City</th>
+            <th>Degree</th>
+            <th>Specialties</th>
+            <th>Years of Experience</th>
+            <th>Phone Number</th>
+          </tr>
         </thead>
         <tbody>
-          {filteredAdvocates.map((advocate) => {
-            return (
-              <tr>
-                <td>{advocate.firstName}</td>
-                <td>{advocate.lastName}</td>
-                <td>{advocate.city}</td>
-                <td>{advocate.degree}</td>
-                <td>
-                  {advocate.specialties.map((s) => (
-                    <div>{s}</div>
-                  ))}
-                </td>
-                <td>{advocate.yearsOfExperience}</td>
-                <td>{advocate.phoneNumber}</td>
-              </tr>
-            );
-          })}
+          {filteredAdvocates.map((advocate) => (
+            <tr key={advocate.id}>
+              <td>{advocate.firstName}</td>
+              <td>{advocate.lastName}</td>
+              <td>{advocate.city}</td>
+              <td>{advocate.degree}</td>
+              <td>
+                {/* TODO: Highlight/Bold a term when it matches SearchTerm */}
+                {advocate.specialties.map((s) => (
+                  <div key={s}>{s}</div>
+                ))}
+              </td>
+              <td>{advocate.yearsOfExperience}</td>
+              <td>{advocate.phoneNumber}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </main>

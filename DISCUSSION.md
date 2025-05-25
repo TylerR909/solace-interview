@@ -13,6 +13,7 @@
 - I'm not versed on Next.js so I'll have to figure out what works. For example, does Context work just the same, which will allow me to split out the data layer into its own unit of responsibility?
   - [This](https://nextjs.org/docs/app/getting-started/server-and-client-components#interleaving-server-and-client-components) was insightful. Looks like I can just use Context as normal.
 - Kind of want to avoid libraries like MUI/Styled/etc in the interest of time. Nothing here is complex enough to necessitate advanced features from those. Looks like Tailwind can guide most of the styling then bare state manipulation (in an isolated layer) can do most of the rest.
+- Would be great to find a useFetch library. I'm so used to useQuery I'm not sure if there's an idiomatic useFetch library but it would beat useState+useEffect backfill
 
 ## Things I'm unsure about
 
@@ -23,15 +24,24 @@
 
 ## TODOs
 
+### MVP
+
+- [x] Architectuer updates
+  - [x] AdvocatesProvider
 - [ ] Prettify Table
 - [ ] Format Phone Number
-- [ ] Right-size the Years of Experience column (huge header, 2-char data)
-- [ ] Convert Specialties into Tags or something (maybe store a color in the db)
-  - [ ] Specialties Admin Panel
 - Functionality:
   - [ ] Search
   - [ ] Add
   - [ ] Delete
   - [ ] View/Click in to (reuse add?)
+- [ ] Convert client-side search to server-side
+
+### Post-MVP
+
+- [ ] Right-size the Years of Experience column (huge header, 2-char data)
+- [ ] Convert Specialties into Tags or something (maybe store a color in the db)
+  - [ ] Specialties Admin Panel
 - [ ] Bold/Highlight Specialties when it matches the Search Term. i.e. searching for "post-partum" should draw the user's attention to that match in the Specialties column
 - Stub out a "Match me with a Provider" UI
+- [ ] Table Sort (client-side at first, requires non-paginated data)
