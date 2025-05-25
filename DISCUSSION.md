@@ -32,7 +32,8 @@
 - [x] Format Phone Number
 - Functionality:
   - [x] Search
-- [ ] Convert client-side search to server-side
+- [x] Convert client-side search to server-side
+- [x] Stub out missing CRUD endpoints
 
 ## Post-MVP
 
@@ -41,13 +42,14 @@
 - [ ] Convert Specialties into Tags or something (maybe store a color in the db)
   - [ ] Specialties Admin Panel
 - [ ] Bold/Highlight Specialties when it matches the Search Term. i.e. searching for "post-partum" should draw the user's attention to that match in the Specialties column
-- Stub out a "Match me with a Provider" UI
+- [ ] Stub out a "Match me with a Provider" UI
 - [ ] Table Sort (client-side at first, requires non-paginated data)
 - [ ] Responsive design + dynamic Table column widths
 - [ ] Functionality:
   - [ ] Add
   - [ ] Delete
   - [ ] View/Click in to (reuse add?)
-- [ ] Validate the schema for the `/api/advoces?searchTerm=test` query string
+- [ ] Validate the schema for the `/api/advocates?searchTerm=test` query string
 - [ ] Loading State while fetch is in-flight
 - [ ] Sanitize SQL (the apostrophe in "men's health" is sql injection and breaks the query)
+- [ ] Type-check `/api/advocates` so API calls are properly typed instead of assuming it's coming back as the full `Advocates` type, which is not guaranteed

@@ -3,7 +3,7 @@ import postgres from "postgres";
 
 const setup = () => {
   if (!process.env.DATABASE_URL) {
-    throw new Error("DATABASE_URL is not set");
+    throw new Error("DATABASE_URL is not set. Was .env prepared?");
   }
 
   // for query purposes

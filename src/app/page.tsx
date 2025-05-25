@@ -1,10 +1,11 @@
 "use client";
 
-import { PropsWithChildren, useMemo, useState } from "react";
+import { PropsWithChildren, useState } from "react";
 import { useAdvocatesContext } from "./AdvocatesProvider";
 
+/** Focuses on searchTerm management and laying out the components */
 export default function Home() {
-  const { advocates, searchTerm, setSearchTerm } = useAdvocatesContext();
+  const { searchTerm, setSearchTerm } = useAdvocatesContext();
   return (
     <>
       <div className="flex justify-between items-center pb-4">
@@ -27,74 +28,83 @@ export default function Home() {
           />
         </div>
       </div>
-      {searchTerm && advocates.length === 0 ? (
-        <>
-          <div>No results to show for "{searchTerm}"...</div>
-          <button
-            // Eh... UI could be better here. Looks a little cheap.
-            className="mx-2 px-2 py-1 font-semibold text-sm bg-sky-500 text-white rounded-none shadow-sm"
-            onClick={() => setSearchTerm("")}
-          >
-            Clear
-          </button>
-        </>
-      ) : (
-        <table className="border-collapse table-auto w-full text-sm rounded-xl">
-          <caption
-            className="caption-top pb-2"
-            // Keep caption in the DOM so the table doesn't jerk "down" when you start searching
-            style={{ visibility: searchTerm ? "visible" : "hidden" }}
-          >
-            Filters applied. Not all advocates may be shown...
-          </caption>
-          <thead className="bg-slate-50 dark:bg-slate-700">
-            <tr>
-              <TableHeader>First Name</TableHeader>
-              <TableHeader>Last Name</TableHeader>
-              <TableHeader>City</TableHeader>
-              <TableHeader>Degree</TableHeader>
-              <TableHeader>Specialties</TableHeader>
-              <TableHeader>Years of Experience</TableHeader>
-              <TableHeader>Phone Number</TableHeader>
-            </tr>
-          </thead>
-          <tbody className="bg-white dark:bg-slate-800">
-            {advocates.map((advocate) => (
-              <tr key={advocate.id}>
-                <TableCell>{advocate.firstName}</TableCell>
-                <TableCell>{advocate.lastName}</TableCell>
-                <TableCell>{advocate.city}</TableCell>
-                <TableCell>{advocate.degree}</TableCell>
-                <TableCell>
-                  {/* TODO: Highlight/Bold a term when it matches SearchTerm */}
-                  <SpecialtiesList
-                    specialties={advocate.specialties}
-                    showMax={3}
-                  />
-                </TableCell>
-                <TableCell>{advocate.yearsOfExperience}</TableCell>
-                <TableCell>
-                  {advocate.phoneNumber
-                    .toString()
-                    // 2345678910 --> (234) 567-8910
-                    .replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}
-                </TableCell>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+      <AdvocatesTable />
     </>
   );
 }
 
-const TableHeader = ({ children }: PropsWithChildren) => (
+/** Renders a Table from the advocates Provider. Also shows a "No results..." experience when a search returned nothing */
+const AdvocatesTable = () => {
+  const { advocates, searchTerm, setSearchTerm } = useAdvocatesContext();
+
+  // "No result" UX if the search returned no results
+  if (searchTerm && advocates.length === 0) {
+    return (
+      <>
+        <div>No results to show for "{searchTerm}"...</div>
+        <button
+          // Eh... UI could be better here. Looks a little cheap.
+          className="mx-2 px-2 py-1 font-semibold text-sm bg-sky-500 text-white rounded-none shadow-sm"
+          onClick={() => setSearchTerm("")}
+        >
+          Clear
+        </button>
+      </>
+    );
+  }
+
+  return (
+    <table className="border-collapse table-auto w-full text-sm rounded-xl">
+      <caption
+        className="caption-top pb-2"
+        // Keep caption in the DOM so the table doesn't jerk "down" when you start searching
+        style={{ visibility: searchTerm ? "visible" : "hidden" }}
+      >
+        Filters applied. Not all advocates may be shown...
+      </caption>
+      <thead className="bg-slate-50 dark:bg-slate-700">
+        <tr>
+          <TableHeaderCell>First Name</TableHeaderCell>
+          <TableHeaderCell>Last Name</TableHeaderCell>
+          <TableHeaderCell>City</TableHeaderCell>
+          <TableHeaderCell>Degree</TableHeaderCell>
+          <TableHeaderCell>Specialties</TableHeaderCell>
+          <TableHeaderCell>Years of Experience</TableHeaderCell>
+          <TableHeaderCell>Phone Number</TableHeaderCell>
+        </tr>
+      </thead>
+      <tbody className="bg-white dark:bg-slate-800">
+        {advocates.map((advocate) => (
+          <tr key={advocate.id}>
+            <TableDataCell>{advocate.firstName}</TableDataCell>
+            <TableDataCell>{advocate.lastName}</TableDataCell>
+            <TableDataCell>{advocate.city}</TableDataCell>
+            <TableDataCell>{advocate.degree}</TableDataCell>
+            <TableDataCell>
+              {/* TODO: Highlight/Bold a term when it matches SearchTerm */}
+              <SpecialtiesList specialties={advocate.specialties} showMax={3} />
+            </TableDataCell>
+            <TableDataCell>{advocate.yearsOfExperience}</TableDataCell>
+            <TableDataCell>
+              {advocate.phoneNumber
+                .toString()
+                // 2345678910 --> (234) 567-8910
+                .replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}
+            </TableDataCell>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+
+const TableHeaderCell = ({ children }: PropsWithChildren) => (
   <th className="border-b dark:border-slate-600 font-medium p-4 pl-8 py-3 text-slate-400 dark:text-slate-200 text-left">
     {children}
   </th>
 );
 
-const TableCell = ({ children }: PropsWithChildren) => (
+const TableDataCell = ({ children }: PropsWithChildren) => (
   <td className="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">
     {children}
   </td>
