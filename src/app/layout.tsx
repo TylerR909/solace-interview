@@ -14,8 +14,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <AdvocatesProvider>{children}</AdvocatesProvider>
+      <body
+        className={`antialiased text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 ${inter.className}`}
+      >
+        <main style={{ margin: "24px" }}>
+          <AdvocatesProvider>{children}</AdvocatesProvider>
+        </main>
       </body>
     </html>
   );

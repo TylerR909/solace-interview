@@ -45,3 +45,4 @@
 - [ ] Bold/Highlight Specialties when it matches the Search Term. i.e. searching for "post-partum" should draw the user's attention to that match in the Specialties column
 - Stub out a "Match me with a Provider" UI
 - [ ] Table Sort (client-side at first, requires non-paginated data)
+- [ ] Responsive design + dynamic Table column widths
