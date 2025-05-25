@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
 /** STUBBED API for what I'd guess a Delete endpoint would look like. Not implemented yet on Frontend, nor tested. */
 export async function DELETE(req: NextRequest) {
   const data = await req.json();
-  db.delete(advocates).where(eq(advocates.id, data.id));
+  await db.delete(advocates).where(eq(advocates.id, data.id));
   // return the now-deleted ID so FE can remove things from cache, tables, etc
   return Response.json({ data: data.id });
 }

@@ -10,6 +10,14 @@ Install dependencies
 npm i
 ```
 
+Prepare `.env` for use:
+
+```bash
+cp .example.env .env
+```
+
+Uncomment DATABASE_URL
+
 Run the development server:
 
 ```bash
