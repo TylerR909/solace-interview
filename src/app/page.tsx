@@ -101,7 +101,6 @@ export default function Home() {
                     // 2345678910 --> (234) 567-8910
                     .replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}
                 </TableCell>
-                {/* input.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3") */}
               </tr>
             ))}
           </tbody>
