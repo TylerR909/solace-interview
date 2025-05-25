@@ -48,6 +48,7 @@
   - [ ] Add
   - [ ] Delete
   - [ ] View/Click in to (reuse add?)
-- [ ] Validate the schema for the `/api/advoces?searchTerm=test` query string
+- [ ] Validate the schema for the `/api/advocates?searchTerm=test` query string
 - [ ] Loading State while fetch is in-flight
 - [ ] Sanitize SQL (the apostrophe in "men's health" is sql injection and breaks the query)
+- [ ] Type-check `/api/advocates` so API calls are properly typed instead of assuming it's coming back as the full `Advocates` type, which is not guaranteed
