@@ -4,7 +4,7 @@
 
 - `drizzle-orm` is up to 0.43.1 now but this is on 0.32.1. Upgrading could unlock the `casing: "snake_case"` config to reduce `firstName: text("first_name")` duplication
 - `phoneNumber` as a `bitInt()` might not support Exensions very well
-- `specialties` is a jsonb. Can easily convert that to a new Table
+- `specialties` is a jsonb. Can convert that to a new Table
 - `degree` could be a table too, making searches more consistent. We'll call that a stretch goal.
 - I'd prefer to reorganize the Schema into `schema/advocate.ts` and `schema/patient.ts` and so on, but not sure if 0.32.1 supports that OOTB like 0.43.1 does. With more recent Drizzle updates it's a drop-in replacement because drizzle can differentiate between `schema.ts` and `schema/*.ts` with 0 config.
 
@@ -19,12 +19,12 @@
 
 - Next.js vs React.js quirks
   - For the most part it looks like `"use client"` means I can operate as normal.
-- Routing/API calls
-  - I've used
+- How we get from a frontend `fetch("/some/route")` to a random `GET(){}` func, but we'll figure it out
+  - [docs](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)
 
-## TODOs
+# TODOs
 
-### MVP
+## MVP
 
 - [x] Architectuer updates
   - [x] AdvocatesProvider
@@ -34,7 +34,7 @@
   - [x] Search
 - [ ] Convert client-side search to server-side
 
-### Post-MVP
+## Post-MVP
 
 - [ ] Right-size the Years of Experience column (huge header, 2-char data)
   - Wrapping the headers ~helped. Less egregious now.
@@ -48,3 +48,6 @@
   - [ ] Add
   - [ ] Delete
   - [ ] View/Click in to (reuse add?)
+- [ ] Validate the schema for the `/api/advoces?searchTerm=test` query string
+- [ ] Loading State while fetch is in-flight
+- [ ] Sanitize SQL (the apostrophe in "men's health" is sql injection and breaks the query)
